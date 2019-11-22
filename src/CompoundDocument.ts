@@ -3,10 +3,10 @@ import {identity} from 'fp-ts/lib/function';
 import {pipe, pipeable} from 'fp-ts/lib/pipeable';
 import {getMonad, listen, pass, Writer} from 'fp-ts/lib/Writer';
 import * as t from 'io-ts';
-import {Data} from './Data';
 import {ArrayC} from './io/ArrayC';
 import {EntityC} from './io/EntityC';
 import {ResourceIdentifierC} from './io/ResourceIdentifierC';
+import {JsonApiData} from './JsonApiData';
 import {RelationshipsCache} from './RelationshipsCache';
 import {RelationshipsRecord} from './RelationshipsRecord';
 import {UnknownRecord} from './UnknownRecord';
@@ -76,8 +76,8 @@ const fromJson = (u: unknown, topLevel: boolean = false): CompoundDocument<unkno
           return topLevel && !t.array(ResourceIdentifierC).is(data) || EntityC.is(data)
             ? [
               ArrayC<UnknownRecord>().is(data)
-                ? data.map(record => Data.fromJson(record, locals))
-                : Data.fromJson(data, locals),
+                ? data.map(record => JsonApiData.fromJson(record, locals))
+                : JsonApiData.fromJson(data, locals),
               RelationshipsCache.emptyLocal
             ]
             : [data, identity];

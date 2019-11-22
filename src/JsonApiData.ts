@@ -1,17 +1,17 @@
 import * as t from 'io-ts';
 import {ArrayC} from './io/ArrayC';
-import {DataC} from './io/DataC';
 import {EntityC} from './io/EntityC';
+import {JsonApiDataC} from './io/JsonApiDataC';
 import {Relationships} from './Relationships';
 import {RelationshipsRecord} from './RelationshipsRecord';
 import {Resource} from './Resource';
 import {ResourceIdentifier} from './ResourceIdentifier';
 import {UnknownRecord} from './UnknownRecord';
 
-export interface Data extends t.TypeOf<typeof DataC> {
+export interface JsonApiData extends t.TypeOf<typeof JsonApiDataC> {
 }
 
-const fromRecord = ({_type, _id, ...attributes}: UnknownRecord, relationships: RelationshipsRecord): Data =>
+const fromRecord = ({_type, _id, ...attributes}: UnknownRecord, relationships: RelationshipsRecord): JsonApiData =>
   ({
     ...(
       EntityC.is({_type, _id})
@@ -52,7 +52,7 @@ const fromJson = (u: unknown, relationships: RelationshipsRecord): unknown =>
     ? fromRecord(u, relationships)
     : u;
 
-export const Data = {
+export const JsonApiData = {
   fromRecord: fromRecord,
   fromJson: fromJson
 };
