@@ -2,7 +2,7 @@ import * as t from 'io-ts';
 import {JsonApiDataC} from './JsonApiDataC';
 import {ResourceC} from './ResourceC';
 
-export const JsonApiC = t.intersection([
+export const DocumentC = t.intersection([
   t.type({
     data: t.union([
       JsonApiDataC,

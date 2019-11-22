@@ -1,13 +1,14 @@
 import * as t from 'io-ts';
+import {Lens, Optional} from 'monocle-ts';
 import {CompoundDocument} from './CompoundDocument';
-import {JsonApiC} from './io/JsonApiC';
+import {DocumentC} from './io/DocumentC';
 import {RelationshipsCache} from './RelationshipsCache';
 
-export interface JsonApi extends t.TypeOf<typeof JsonApiC> {
+export interface Document extends t.TypeOf<typeof DocumentC> {
 }
 
-export const JsonApi = {
-  fromJson: (u: unknown): JsonApi => {
+export const Document = {
+  fromJson: (u: unknown): Document => {
     const [data, relationships] = CompoundDocument.fromJson(u, true)();
     const included = Object.values(
       RelationshipsCache.lens.global.get(
@@ -18,6 +19,12 @@ export const JsonApi = {
     return {
       data,
       ...(included.length > 0 ? {included} : null)
-    } as JsonApi;
+    } as Document;
+  },
+  lens: {
+    data: Lens.fromProp<Document>()('data')
+  },
+  optional: {
+    included: Optional.fromNullableProp<Document>()('included')
   }
 };
