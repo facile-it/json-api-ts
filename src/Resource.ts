@@ -9,15 +9,8 @@ export interface Resource extends t.TypeOf<typeof ResourceC> {
 export const Resource = {
   lens: {
     identifier: new Lens<Resource, ResourceIdentifier>(
-      s => ({
-        type: ResourceIdentifier.lens.type.get(s),
-        id: ResourceIdentifier.lens.id.get(s)
-      }),
-      a => s => ({
-        ...s,
-        type: ResourceIdentifier.lens.type.get(a),
-        id: ResourceIdentifier.lens.id.get(a)
-      })
+      ({type, id, ..._}) => ({type, id}),
+      ({type, id, ..._}) => s => ({...s, type, id})
     )
   }
 };

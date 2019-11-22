@@ -64,18 +64,15 @@ const monoid: Monoid<RelationshipsCache | RelationshipsRecord> = {
 export const RelationshipsCache = {
   fromRelationships: fromRelationships,
   emptyLocal: (cache: RelationshipsCache | RelationshipsRecord): RelationshipsCache =>
-    ((cache: RelationshipsCache): RelationshipsCache => ([
-      lenses.global.get(cache),
-      {}
-    ]))(fromRelationships(cache)),
+    lenses.local.set({})(fromRelationships(cache)),
   nestLocal: (cache: RelationshipsCache | RelationshipsRecord, key: string): RelationshipsCache =>
-    ((cache: RelationshipsCache): RelationshipsCache => ([
-      lenses.global.get(cache),
-      RelationshipsRecord.nest(
-        lenses.local.get(cache),
-        key
-      )
-    ]))(fromRelationships(cache)),
+    ((cache: RelationshipsCache): RelationshipsCache =>
+      lenses.local.set(
+        RelationshipsRecord.nest(
+          lenses.local.get(cache),
+          key
+        )
+      )(cache))(fromRelationships(cache)),
   lens: lenses,
   monoid: {
     self: monoid
