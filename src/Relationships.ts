@@ -1,5 +1,5 @@
-import * as t from 'io-ts';
-import {RelationshipsC} from './io/RelationshipsC';
+import {ResourceIdentifier} from './ResourceIdentifier';
 
-export interface Relationships extends t.TypeOf<typeof RelationshipsC> {
+export interface Relationships {
+  [k: string]: { data: ResourceIdentifier | Array<ResourceIdentifier> }
 }

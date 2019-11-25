@@ -1,6 +1,7 @@
 import * as t from 'io-ts';
+import {NonEmptyString} from 'io-ts-types/lib/NonEmptyString';
 
 export const ResourceIdentifierC = t.type({
-  type: t.string,
-  id: t.string
+  type: NonEmptyString,
+  id: NonEmptyString
 });

@@ -1,4 +1,5 @@
 import * as t from 'io-ts';
+import {NonEmptyString} from 'io-ts-types/lib/NonEmptyString';
 import {Iso} from 'monocle-ts';
 import {ResourceIdentifierC} from './io/ResourceIdentifierC';
 
@@ -13,8 +14,8 @@ export const ResourceIdentifier = {
         const strings = a.split(':');
 
         return {
-          type: strings[0],
-          id: strings[1]
+          type: strings[0] as NonEmptyString,
+          id: strings[1] as NonEmptyString
         };
       }
     )

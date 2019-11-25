@@ -1,7 +1,7 @@
-import * as t from 'io-ts';
-import {RelationshipsRecordC} from './io/RelationshipsRecordC';
+import {ResourceIdentifier} from './ResourceIdentifier';
 
-export interface RelationshipsRecord extends t.TypeOf<typeof RelationshipsRecordC> {
+export interface RelationshipsRecord {
+  [k: string]: ResourceIdentifier | Array<ResourceIdentifier>
 }
 
 export const RelationshipsRecord = {

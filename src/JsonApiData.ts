@@ -1,4 +1,5 @@
 import * as t from 'io-ts';
+import {NonEmptyString} from 'io-ts-types/lib/NonEmptyString';
 import {ArrayC} from './io/ArrayC';
 import {EntityC} from './io/EntityC';
 import {JsonApiDataC} from './io/JsonApiDataC';
@@ -15,7 +16,10 @@ const fromRecord = ({_type, _id, ...attributes}: UnknownRecord, relationships: R
   ({
     ...(
       EntityC.is({_type, _id})
-        ? {type: '' + _type, id: '' + _id}
+        ? {
+          type: '' + _type as NonEmptyString,
+          id: '' + _id as NonEmptyString
+        }
         : null
     ),
     ...(
@@ -28,7 +32,7 @@ const fromRecord = ({_type, _id, ...attributes}: UnknownRecord, relationships: R
         ? {
           relationships: Object.keys(relationships)
             .reduce(
-              (carry: Relationships, key: keyof Relationships): Relationships => {
+              (carry: Relationships, key: string): Relationships => {
                 const resource = relationships[key];
 
                 return {
