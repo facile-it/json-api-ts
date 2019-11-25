@@ -3,6 +3,7 @@ import * as t from 'io-ts';
 import {NumberFromString} from 'io-ts-types/lib/NumberFromString';
 import {merge} from 'lodash';
 import {Entity} from './Entity';
+import {Identifier} from './Identifier';
 import {JsonApiDataC} from './io/JsonApiDataC';
 import {ResourceIdentifierC} from './io/ResourceIdentifierC';
 import {JsonApiData} from './JsonApiData';
@@ -55,7 +56,7 @@ const fromJsonApiData = (data: JsonApiData, resources: ResourceRecord): UnknownR
         ResourceIdentifierC.is(data)
           ? {
             _type: data.type,
-            _id: getOrElse<unknown, number | string>(() => data.id)(
+            _id: getOrElse<unknown, Identifier>(() => data.id)(
               NumberFromString.decode(data.id)
             )
           } as Entity
