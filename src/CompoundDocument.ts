@@ -5,6 +5,7 @@ import {getMonad, listen, pass, Writer} from 'fp-ts/lib/Writer';
 import * as t from 'io-ts';
 import {ArrayC} from './io/ArrayC';
 import {EntityC} from './io/EntityC';
+import {NonEmptyArrayC} from './io/NonEmptyArrayC';
 import {ResourceIdentifierC} from './io/ResourceIdentifierC';
 import {JsonApiData} from './JsonApiData';
 import {RelationshipsCache} from './RelationshipsCache';
@@ -38,7 +39,7 @@ const fromRecord = (u: UnknownRecord): CompoundDocument<UnknownRecord> =>
                       {...record, [key]: data},
                       identity
                     ]
-                    : ResourceIdentifierC.is(data) || t.array(ResourceIdentifierC).is(data)
+                    : ResourceIdentifierC.is(data) || NonEmptyArrayC(ResourceIdentifierC).is(data)
                       ? [
                         record,
                         relationships => RelationshipsCache.monoid.self
@@ -73,7 +74,7 @@ const fromJson = (u: unknown, topLevel: boolean = false): CompoundDocument<unkno
           const cache = RelationshipsCache.fromRelationships(relationships);
           const locals = RelationshipsCache.lens.local.get(cache);
 
-          return topLevel && !t.array(ResourceIdentifierC).is(data) || EntityC.is(data)
+          return topLevel && !NonEmptyArrayC(ResourceIdentifierC).is(data) || EntityC.is(data)
             ? [
               ArrayC<UnknownRecord>().is(data)
                 ? data.map(record => JsonApiData.fromJson(record, locals))
