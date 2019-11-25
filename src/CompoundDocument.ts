@@ -53,7 +53,7 @@ const fromRecord = (u: UnknownRecord): CompoundDocument<UnknownRecord> =>
             )
           )
         ),
-      fromRecord({})
+      fromUnknown({}) as CompoundDocument<UnknownRecord>
     );
 
 const fromJson = (u: unknown, topLevel: boolean = false): CompoundDocument<unknown> =>
