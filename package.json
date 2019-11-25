@@ -9,7 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@gitlab.facile.it:artoo/json-api-ts.git"
+    "url": "git@gitlab.facile.it:artoo/json-api/json-api-ts.git"
   },
   "author": "Alberto Villa <alberto.villa@facile.it>",
   "license": "BSD-2-Clause",
