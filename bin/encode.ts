@@ -1,4 +1,4 @@
-#!/usr/bin/env ts-node
+#!/usr/bin/env node
 
 import {either, fold} from 'fp-ts/lib/Either';
 import {pipe, pipeable} from 'fp-ts/lib/pipeable';
