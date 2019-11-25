@@ -1,7 +1,7 @@
 import {identity} from 'fp-ts/lib/function';
 import * as t from 'io-ts';
 
-const is = <T>() => (u): u is Array<T> => u instanceof Array;
+const is = <T>() => (u: unknown): u is Array<T> => u instanceof Array;
 
 export const ArrayC = <A = never>() => new t.Type<Array<A>>(
   'UnknownArray',

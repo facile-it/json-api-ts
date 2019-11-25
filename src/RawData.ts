@@ -55,7 +55,7 @@ const fromJsonApiData = (data: JsonApiData, resources: ResourceRecord): UnknownR
       ),
       ...data.attributes
     },
-    fromRelationships(data.relationships, resources)
+    fromRelationships(data.relationships || {}, resources)
   );
 
 const fromJson = (u: unknown, resources: ResourceRecord): unknown =>
