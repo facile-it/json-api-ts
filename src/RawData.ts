@@ -2,6 +2,7 @@ import {getOrElse} from 'fp-ts/lib/Either';
 import * as t from 'io-ts';
 import {NumberFromString} from 'io-ts-types/lib/NumberFromString';
 import {merge} from 'lodash';
+import {Entity} from './Entity';
 import {JsonApiDataC} from './io/JsonApiDataC';
 import {ResourceIdentifierC} from './io/ResourceIdentifierC';
 import {JsonApiData} from './JsonApiData';
@@ -57,7 +58,7 @@ const fromJsonApiData = (data: JsonApiData, resources: ResourceRecord): UnknownR
             _id: getOrElse<unknown, number | string>(() => data.id)(
               NumberFromString.decode(data.id)
             )
-          }
+          } as Entity
           : null
       ),
       ...data.attributes
