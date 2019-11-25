@@ -53,6 +53,5 @@ const fromJson = (u: unknown, relationships: RelationshipsRecord): unknown =>
     : u;
 
 export const JsonApiData = {
-  fromRecord: fromRecord,
   fromJson: fromJson
 };
