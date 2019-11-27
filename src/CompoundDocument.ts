@@ -30,23 +30,40 @@ const fromRecord = (u: UnknownRecord): CompoundDocument<UnknownRecord> =>
         pipe(
           writer,
           M.chain(
-            record => pass(
+            // The accumulator (bag of relationships) has to be modified depending on returned data (the actual JSON).
+            attributes => pass(
               pipe(
                 fromJson(u[key]),
                 M.map(
                   data => !t.UnknownRecord.is(data)
+                    /**
+                     * No transformation needed with a scalar, just map the value in the result (as an [attribute][1]).
+                     *
+                     * [1]: https://jsonapi.org/format/#document-resource-object-attributes
+                     */
                     ? [
-                      {...record, [key]: data},
+                      {...attributes, [key]: data},
                       identity
                     ]
+                    // Beware: *non-empty* array.
                     : ResourceIdentifierC.is(data) || NonEmptyArrayC(ResourceIdentifierC).is(data)
+                      /**
+                       * Child resources must be added to the bag of [relationships][1] (the accumulator). Leave the
+                       * attributes alone.
+                       *
+                       * [1]: https://jsonapi.org/format/#document-resource-object-relationships
+                       */
                       ? [
-                        record,
+                        attributes,
                         relationships => RelationshipsCache.monoid.self
                           .concat(relationships, {[key]: data})
                       ]
+                      /**
+                       * A nested non-resource object must be added to the attributes just like a scalar, while current
+                       * relationships have to mirror the nesting.
+                       */
                       : [
-                        {...record, [key]: data},
+                        {...attributes, [key]: data},
                         relationships => RelationshipsCache.nestLocal(relationships, key)
                       ]
                 )
@@ -60,9 +77,9 @@ const fromRecord = (u: UnknownRecord): CompoundDocument<UnknownRecord> =>
 const fromJson = (u: unknown, primaryData: boolean = false): CompoundDocument<unknown> =>
   !t.UnknownRecord.is(u)
     ? fromUnknown(u)
-    : pass(
+    : pass( // pass() allows both Writer elements to be modified at once.
     pipe(
-      listen(
+      listen( // Expose Writer accumulator.
         (
           ArrayC<unknown>().is(u)
             ? fromArray(u)
@@ -74,7 +91,16 @@ const fromJson = (u: unknown, primaryData: boolean = false): CompoundDocument<un
           const cache = RelationshipsCache.fromRelationships(relationships);
           const locals = RelationshipsCache.lens.local.get(cache);
 
-          return primaryData && !NonEmptyArrayC(ResourceIdentifierC).is(data) || EntityC.is(data)
+          /**
+           * If resulting data is an entity - or if we're parsing [primary data][1] -, convert it to JSON:API format and
+           * flush local relationships.
+           * Otherwise, just forward everything to the upper level.
+           *
+           * [1]: https://jsonapi.org/format/#document-top-level
+           */
+          return primaryData &&
+          !NonEmptyArrayC(ResourceIdentifierC).is(data) || // Prevent repeating the conversion.
+          EntityC.is(data)
             ? [
               ArrayC<UnknownRecord>().is(data)
                 ? data.map(record => JsonApiData.fromJson(record, locals))
