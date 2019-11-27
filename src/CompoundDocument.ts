@@ -12,7 +12,7 @@ import {RelationshipsCache} from './RelationshipsCache';
 import {RelationshipsRecord} from './RelationshipsRecord';
 import {UnknownRecord} from './UnknownRecord';
 
-type CompoundDocument<A> = Writer<RelationshipsCache | RelationshipsRecord, A>
+export type CompoundDocument<A> = Writer<RelationshipsCache | RelationshipsRecord, A>
 
 const m = getMonad(RelationshipsCache.monoid.self);
 const M = pipeable(m);

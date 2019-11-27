@@ -6,18 +6,22 @@ import {RelationshipsCache} from './RelationshipsCache';
 export interface Document extends t.TypeOf<typeof DocumentC> {
 }
 
-export const Document = {
-  fromJson: (u: unknown): Document => {
-    const [data, relationships] = CompoundDocument.fromJson(u, true)();
-    const included = Object.values(
-      RelationshipsCache.lens.global.get(
-        RelationshipsCache.fromRelationships(relationships)
-      )
-    );
+const fromCompoundDocument = (w: CompoundDocument<unknown>): Document => {
+  const [data, relationships] = w();
+  const cache = RelationshipsCache.fromRelationships(relationships);
+  const included = Object.values(RelationshipsCache.lens.global.get(cache));
 
-    return {
-      data,
-      ...(included.length > 0 ? {included} : null)
-    } as Document;
-  }
+  return {
+    data,
+    ...(included.length > 0 ? {included} : null)
+  } as Document;
+};
+
+const fromJson = (u: unknown): Document => fromCompoundDocument(
+  CompoundDocument.fromJson(u, true)
+);
+
+export const Document = {
+  fromCompoundDocument: fromCompoundDocument,
+  fromJson: fromJson
 };
