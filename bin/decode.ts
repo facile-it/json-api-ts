@@ -6,7 +6,7 @@ import {taskEither} from 'fp-ts/lib/TaskEither';
 import {decode} from '../src';
 import {ArrayC} from '../src/io/ArrayC';
 import {DocumentC} from '../src/io/DocumentC';
-import {Json} from './Json';
+import {Json} from '../src/Json';
 
 const TE = pipeable(taskEither);
 const E = pipeable(either);
