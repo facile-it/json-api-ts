@@ -57,7 +57,7 @@ const fromRecord = (u: UnknownRecord): CompoundDocument<UnknownRecord> =>
       fromUnknown({}) as CompoundDocument<UnknownRecord>
     );
 
-const fromJson = (u: unknown, topLevel: boolean = false): CompoundDocument<unknown> =>
+const fromJson = (u: unknown, primaryData: boolean = false): CompoundDocument<unknown> =>
   !t.UnknownRecord.is(u)
     ? fromUnknown(u)
     : pass(
@@ -74,7 +74,7 @@ const fromJson = (u: unknown, topLevel: boolean = false): CompoundDocument<unkno
           const cache = RelationshipsCache.fromRelationships(relationships);
           const locals = RelationshipsCache.lens.local.get(cache);
 
-          return topLevel && !NonEmptyArrayC(ResourceIdentifierC).is(data) || EntityC.is(data)
+          return primaryData && !NonEmptyArrayC(ResourceIdentifierC).is(data) || EntityC.is(data)
             ? [
               ArrayC<UnknownRecord>().is(data)
                 ? data.map(record => JsonApiData.fromJson(record, locals))
