@@ -12,7 +12,7 @@
     "url": "git@gitlab.facile.it:artoo/json-api/json-api-ts.git"
   },
   "author": "Alberto Villa <alberto.villa@facile.it>",
-  "license": "BSD-2-Clause",
+  "license": "MIT",
   "dependencies": {
     "fp-ts": "^2.1.2",
     "io-ts": "^2.0.1",
