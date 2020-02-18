@@ -3,7 +3,9 @@
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "tsc",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "push": "npm run build && git add lib/ && git commit -m'Update lib/' && git push"
   },
   "repository": {
     "type": "git",
