@@ -5,7 +5,7 @@
   "scripts": {
     "build": "tsc",
     "coverage": "nyc -a -n src/ npm test",
-    "test": "mocha -r ts-node/register test/**/*.test.ts"
+    "test": "mocha --recursive"
   },
   "repository": {
     "type": "git",
