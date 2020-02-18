@@ -3,16 +3,12 @@ import {DocumentC} from '../../../src/io/DocumentC';
 
 describe('DocumentC', () => {
   describe('is', () => {
-    it('should return a boolean', () => {
+    it('should return false with invalid JSON:API documents', () => {
       expect(DocumentC.is({})).to.be.false;
 
       expect(DocumentC.is({data: false})).to.be.false;
       expect(DocumentC.is({data: 0})).to.be.false;
       expect(DocumentC.is({data: ''})).to.be.false;
-
-      expect(DocumentC.is({data: null})).to.be.true;
-      expect(DocumentC.is({data: {}})).to.be.true;
-      expect(DocumentC.is({data: [{}]})).to.be.true;
 
       expect(DocumentC.is({data: {type: false}})).to.be.false;
       expect(DocumentC.is({data: {type: ''}})).to.be.false;
@@ -44,6 +40,12 @@ describe('DocumentC', () => {
       expect(DocumentC.is({data: [{relationships: {a: [{}]}}]})).to.be.false;
       expect(DocumentC.is({data: [{relationships: {a: [{type: 'a'}]}}]})).to.be.false;
       expect(DocumentC.is({data: [{relationships: {a: [{id: '1'}]}}]})).to.be.false;
+    });
+
+    it('should return true with valid JSON:API documents', () => {
+      expect(DocumentC.is({data: null})).to.be.true;
+      expect(DocumentC.is({data: {}})).to.be.true;
+      expect(DocumentC.is({data: [{}]})).to.be.true;
     });
   });
 });
