@@ -4,8 +4,6 @@ node_js:
 
 script:
   - npm run coverage
-
-after_success:
   - nyc report -r clover
   - npm install -g ocular.js
-  - ocular.js coverage/clover.xml
+  - ocular coverage/clover.xml
