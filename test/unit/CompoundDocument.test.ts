@@ -29,6 +29,10 @@ describe('CompoundDocument', () => {
       const a2 = {type: 'a', id: '2', relationships: {b: {data: b1}}};
       expect(f({a: {_type: 'a', _id: 2, b: {_type: 'b', _id: 1}}}))
         .to.deep.equal([{}, [2, {'a:2': a2, 'b:1': b1}, {a: a2}]]);
+
+      const a3 = {type: 'a', id: '3', attributes: {b: []}};
+      expect(f({a: {_type: 'a', _id: 3, b: []}}))
+        .to.deep.equal([{}, [1, {'a:3': a3}, {a: a3}]]);
     });
 
     it('should return a JSON:API-like record with nested arrays of entities (#4)', () => {
