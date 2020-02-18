@@ -35,7 +35,7 @@ const fromRecord = (u: UnknownRecord): CompoundDocument<UnknownRecord> =>
               pipe(
                 fromJson(u[key]),
                 M.map(
-                  data => !t.UnknownRecord.is(data)
+                  data => !t.UnknownRecord.is(data) && !ArrayC<unknown>().is(data)
                     /**
                      * No transformation needed with a scalar, just map the value in the result (as an [attribute][1]).
                      *
@@ -75,7 +75,7 @@ const fromRecord = (u: UnknownRecord): CompoundDocument<UnknownRecord> =>
     );
 
 const fromJson = (u: unknown, primaryData: boolean = false): CompoundDocument<unknown> =>
-  !t.UnknownRecord.is(u)
+  !t.UnknownRecord.is(u) && !ArrayC<unknown>().is(u)
     ? fromUnknown(u)
     : pass( // pass() allows both Writer elements to be modified at once.
     pipe(
@@ -114,5 +114,8 @@ const fromJson = (u: unknown, primaryData: boolean = false): CompoundDocument<un
     );
 
 export const CompoundDocument = {
-  fromJson: fromJson
+  fromArray: fromArray,
+  fromJson: fromJson,
+  fromRecord: fromRecord,
+  fromUnknown: fromUnknown
 };
