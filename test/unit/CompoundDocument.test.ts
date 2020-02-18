@@ -12,13 +12,13 @@ describe('CompoundDocument', () => {
   describe('fromRecord', () => {
     const f = (u: UnknownRecord) => CompoundDocument.fromRecord(u)();
 
-    it('should return the record itself without nested resources', () => {
+    it('should return the record itself without nested entities', () => {
       expect(f({})).to.deep.equal(g({}));
       expect(f({a: 1, b: {c: 1}, d: []})).to.deep.equal(g({a: 1, b: {c: 1}, d: []}));
       expect(f({_type: 'a', _id: 1})).to.deep.equal(g({_type: 'a', _id: 1}));
     });
 
-    it('should return a JSON:API-like record with nested resources', () => {
+    it('should return a JSON:API-like record with nested entities', () => {
       const a1 = {type: 'a', id: '1'};
       expect(f({a: {_type: 'a', _id: 1}}))
         .to.deep.equal([{}, [1, {'a:1': a1}, {a: a1}]]);
@@ -31,7 +31,7 @@ describe('CompoundDocument', () => {
         .to.deep.equal([{}, [2, {'a:2': a2, 'b:1': b1}, {a: a2}]]);
     });
 
-    it('should return a JSON:API-like record with nested arrays of resources (#4)', () => {
+    it('should return a JSON:API-like record with nested arrays of entities (#4)', () => {
       const b1 = {type: 'b', id: '1'};
       const b2 = {type: 'b', id: '2'};
       const a1 = {type: 'a', id: '1', relationships: {b: {data: [b1, b2]}}};
