@@ -114,5 +114,8 @@ const fromJson = (u: unknown, primaryData: boolean = false): CompoundDocument<un
     );
 
 export const CompoundDocument = {
-  fromJson: fromJson
+  fromArray: fromArray,
+  fromJson: fromJson,
+  fromRecord: fromRecord,
+  fromUnknown: fromUnknown
 };
