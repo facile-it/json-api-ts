@@ -6,13 +6,16 @@
   "module": "./esm/index.js",
   "types": "./esm/index.d.ts",
   "sideEffects": false,
+  "keywords": [
+    "jsonapi"
+  ],
   "scripts": {
     "prebuild": "npm run clean",
     "build": "npm run build:cjs && npm run build:esm",
     "build:cjs": "tsc --build ./tsconfig.cjs.json",
     "build:esm": "tsc --build ./tsconfig.esm.json",
     "clean": "rm -rf ./dist/",
-    "prerelease": "npm run build && cp package.json ./dist/",
+    "prerelease": "npm run build && cp package.json *.md ./dist/",
     "release": "npm publish ./dist/",
     "test": "mocha --recursive",
     "test:coverage": "nyc -a -n src/ npm test"
