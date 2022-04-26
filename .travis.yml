@@ -1,9 +1,0 @@
-language: node_js
-node_js:
-  - 10
-
-script:
-  - npm run coverage
-  - nyc report -r clover
-  - npm install -g ocular.js
-  - ocular coverage/clover.xml
