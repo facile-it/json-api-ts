@@ -1,0 +1,6 @@
+services:
+  nodejs:
+    image: node:16.14-alpine
+    volumes:
+      - ./:/var/dist/
+    working_dir: /var/dist/
