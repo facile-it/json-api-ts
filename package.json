@@ -12,6 +12,8 @@
     "build:cjs": "tsc --build ./tsconfig.cjs.json",
     "build:esm": "tsc --build ./tsconfig.esm.json",
     "clean": "rm -rf ./dist/",
+    "prerelease": "npm run build && cp package.json ./dist/",
+    "release": "npm publish ./dist/",
     "test": "mocha --recursive",
     "test:coverage": "nyc -a -n src/ npm test"
   },
