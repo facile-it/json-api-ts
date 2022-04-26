@@ -1,10 +1,17 @@
 {
   "name": "json-api-ts",
   "version": "1.0.1",
-  "main": "lib/index.js",
-  "types": "lib/index.d.ts",
+  "description": "",
+  "main": "./lib/index.js",
+  "module": "./esm/index.js",
+  "types": "./esm/index.d.ts",
+  "sideEffects": false,
   "scripts": {
-    "build": "tsc",
+    "prebuild": "npm run clean",
+    "build": "npm run build:cjs && npm run build:esm",
+    "build:cjs": "tsc --build ./tsconfig.cjs.json",
+    "build:esm": "tsc --build ./tsconfig.esm.json",
+    "clean": "rm -rf ./dist/",
     "test": "mocha --recursive",
     "test:coverage": "nyc -a -n src/ npm test"
   },
