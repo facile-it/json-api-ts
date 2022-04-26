@@ -1,5 +1,5 @@
 {
-  "name": "json-api-ts",
+  "name": "json-api-codec",
   "version": "1.1.0-rc.1",
   "description": "Barely acceptable JSON:API codec",
   "main": "./lib/index.js",
