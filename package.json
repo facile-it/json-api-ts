@@ -5,8 +5,8 @@
   "types": "lib/index.d.ts",
   "scripts": {
     "build": "tsc",
-    "coverage": "nyc -a -n src/ npm test",
-    "test": "mocha --recursive"
+    "test": "mocha --recursive",
+    "test:coverage": "nyc -a -n src/ npm test"
   },
   "repository": {
     "type": "git",
